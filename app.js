@@ -5,6 +5,7 @@ const { brotliDecompress } = require("zlib");
 const server = http.createServer((req, res) => {
   const url = req.url;
   const method = req.method;
+
   if (url === "/") {
     res.write("<html>");
     res.write("<head><title>Enter Message</title></head>");
@@ -14,23 +15,25 @@ const server = http.createServer((req, res) => {
     res.write("</html>");
     return res.end();
   }
+
   if (url === "/message" && method === "POST") {
     const body = [];
     req.on("data", (chunk) => {
       console.log(chunk);
       body.push(chunk);
     });
-    req.on("end", () => {
+    return req.on("end", () => {
       const parsedBody = Buffer.concat(body).toString();
       const message = parsedBody.split("=")[1];
       fs.writeFileSync("message.txt", message);
+      //경로 재지정
+      res.statusCode = 302;
+      res.setHeader("Location", "/");
+      return res.end();
     });
-    //경로 재지정
-    res.statusCode = 302;
-    res.setHeader("Location", "/");
-    return res.end();
   }
-  console.log(req.url, req.method, req.headers);
+
+  // console.log(req.url, req.method, req.headers);
   //process.exit();
   res.setHeader("Content-Type", "text/html");
   res.write("<html>");
