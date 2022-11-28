@@ -1,5 +1,6 @@
 const http = require("http");
 const fs = require("fs");
+const { brotliDecompress } = require("zlib");
 
 const server = http.createServer((req, res) => {
   const url = req.url;
@@ -14,7 +15,16 @@ const server = http.createServer((req, res) => {
     return res.end();
   }
   if (url === "/message" && method === "POST") {
-    fs.writeFileSync("message.txt", "DUMMY");
+    const body = [];
+    req.on("data", (chunk) => {
+      console.log(chunk);
+      body.push(chunk);
+    });
+    req.on("end", () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split("=")[1];
+      fs.writeFileSync("message.txt", message);
+    });
     //경로 재지정
     res.statusCode = 302;
     res.setHeader("Location", "/");
