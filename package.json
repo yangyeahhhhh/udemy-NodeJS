@@ -1,0 +1,21 @@
+{
+  "name": "udemy-nodejs",
+  "version": "1.0.0",
+  "description": "Complete Node.js Guide",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start-server": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangyeahhhhh/udemy-NodeJS.git"
+  },
+  "author": "yangyewon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yangyeahhhhh/udemy-NodeJS/issues"
+  },
+  "homepage": "https://github.com/yangyeahhhhh/udemy-NodeJS#readme"
+}
